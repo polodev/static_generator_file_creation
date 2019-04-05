@@ -114,10 +114,8 @@ TEXT;
     return true;
   }
 
-
 }
 
-$text = "hello world";
 
 
 if(file_exists('_posts')) {
