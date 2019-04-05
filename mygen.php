@@ -22,6 +22,22 @@ class Helper {
 
     return trim($title, $separator);
   }
+  public static function rrmdir($src) {
+    $dir = opendir($src);
+    while(false !== ( $file = readdir($dir)) ) {
+        if (( $file != '.' ) && ( $file != '..' )) {
+            $full = $src . '/' . $file;
+            if ( is_dir($full) ) {
+                self::rrmdir($full);
+            }
+            else {
+                unlink($full);
+            }
+        }
+    }
+    closedir($dir);
+    rmdir($src);
+  }
 }
 
 
@@ -102,6 +118,11 @@ TEXT;
 }
 
 $text = "hello world";
+
+
+if(file_exists('_posts')) {
+  Helper::rrmdir('_posts');
+}
 
 $generator = new MyGen;
 foreach (range(0, 5000) as $value) {
