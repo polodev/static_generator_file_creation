@@ -78,8 +78,9 @@ class MyGen {
     }
     return $string;
   }
-  public function generateFileContent($title, $description)
+  public function generateFileContentPost($title, $description)
   {
+
     $content = $this->generateContent();
     $file_content =  <<<"TEXT"
 ---
@@ -97,17 +98,49 @@ $content
 
 TEXT;
     return $file_content;
+  }
+  public function generateFileContentTutorial($title, $description) {
+    $content = $this->generateContent();
+    $file_content =  <<<"TEXT"
++++
+type="post"
+toc=true
+title= "$title"
+date= 2018-11-12T01:23:53+06:00
+draft= false
+weight= 1
+authors= ["Polo dev"]
+categories= []
+tags= ['']
+tutorial_tags= ['ajax', 'multiple file upload', 'formdata', 'full code', 'codeigniter']
+tutorialTypes=['tutorials']
+keyword= "multiple file upload using ajax, codeigniter, file upload, form data"
+description= "$description"
+skill_level=["beginner"]
+available_skill_level=["beginner", "intermediate", "advanced"]
+series=[]
+series_weight=1
++++
 
+$content
+
+TEXT;
+    return $file_content;
+  }
+  public function generateFileContent($title, $description)
+  {
+    // return $this->generateFileContentPost($title, $description);
+    return $this->generateFileContentTutorial($title, $description);
   }
   public function make_file()
   {
     $description = substr($this->generatTitle(), 0, rand(300, 450));
     $title = substr($description, 0, rand(35, 95));
     $file_content = $this->generateFileContent($title, $description);
-    if (!file_exists('_posts')) {
-      mkdir('_posts');
+    if (!file_exists('tutorials')) {
+      mkdir('tutorials');
     }
-    $file_name = '_posts/'. Helper::slug($title) . '.md';
+    $file_name = 'tutorials/'. Helper::slug($title) . '.md';
     $file = fopen($file_name, 'w');
     fwrite($file, $file_content);
     fclose($file);
@@ -118,8 +151,8 @@ TEXT;
 
 
 
-if(file_exists('_posts')) {
-  Helper::rrmdir('_posts');
+if(file_exists('tutorials')) {
+  Helper::rrmdir('tutorials');
 }
 
 $generator = new MyGen;
