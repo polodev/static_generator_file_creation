@@ -102,7 +102,7 @@ TEXT;
   public function make_file()
   {
     $description = substr($this->generatTitle(), 0, rand(300, 450));
-    $title = substr($description, 0, rand(20, 45));
+    $title = substr($description, 0, rand(35, 95));
     $file_content = $this->generateFileContent($title, $description);
     if (!file_exists('_posts')) {
       mkdir('_posts');
